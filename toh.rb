@@ -28,15 +28,6 @@ def quit? (from,to)
   end
 end
 
-def user_move (move_from,move_to)
-  if move_to.none? || move_from.first < move_to.first
-    move_to.unshift(move_from.first)
-    move_from.shift
-  else
-    puts "Please enter a valid move."
-  end
-end
-
 def game_won (winning_tower,rods,moves)
   if rods[2] == winning_tower || rods[3] == winning_tower
     puts "Winner winner, chicken dinner!"
@@ -78,7 +69,14 @@ while true
   move_from = rods[move_from] # move_from uses rod's value
   move_to = rods[move_to] # move_to uses rod's value
   # validate the user's move
-  user_move(move_from,move_to)
+  if move_from.none?
+    puts "You cannot select an empty rod"
+  elsif move_to.none? || move_from.first < move_to.first
+    move_to.unshift(move_from.first)
+    move_from.shift    
+  else
+    puts "Please enter a valid move."
+  end
   # display game board after each move
   rods.each {|rod,disk_number|puts "Rod #{rod}: #{disk_number}"}
   moves += 1
